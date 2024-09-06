@@ -19,6 +19,7 @@ import { COLUMNS, DEFAULT_PROPS } from '../constants';
 import useDeepCompare from '../hooks/useDeepCompare';
 import type {
   CalendarViewMode,
+  DayMinutePros,
   TimelineProviderProps,
   UnavailableHour,
 } from '../types';
@@ -39,10 +40,13 @@ type CustomTimelineProviderProps = Required<
     | 'hourFormat'
     | 'timeZone'
     | 'calendarWidth'
+    | 'nightHours'
+    | 'dayMinutes'
   >
 >;
 
 interface TimelineCalendarContextValue extends CustomTimelineProviderProps {
+  nightHours?: string[];
   pages: { [key in CalendarViewMode]: { data: string[]; index: number } };
   hours: { text: string; hourNumber: number }[];
   initialDate: React.MutableRefObject<string>;
@@ -78,6 +82,7 @@ interface TimelineCalendarContextValue extends CustomTimelineProviderProps {
   isPinchActive: SharedValue<boolean>;
   numOfColumns: number;
   heightByTimeInterval: Readonly<SharedValue<number>>;
+  dayMinutes?: DayMinutePros[];
 }
 
 const TimelineCalendarContext = React.createContext<
@@ -122,6 +127,8 @@ const TimelineProvider: React.FC<TimelineProviderProps> = (props) => {
     nowIndicatorInterval = DEFAULT_PROPS.NOW_INDICATOR_INTERVAL,
     navigateDelay = DEFAULT_PROPS.NAVIGATION_DELAY,
     calendarWidth,
+    nightHours,
+    dayMinutes,
   } = props;
 
   const { width: windowWidth } = useWindowDimensions();
@@ -267,6 +274,8 @@ const TimelineProvider: React.FC<TimelineProviderProps> = (props) => {
       numOfColumns,
       initialTimeIntervalHeight,
       heightByTimeInterval,
+      nightHours,
+      dayMinutes,
     };
   }, [
     pages,
@@ -313,6 +322,8 @@ const TimelineProvider: React.FC<TimelineProviderProps> = (props) => {
     navigateDelay,
     initialTimeIntervalHeight,
     heightByTimeInterval,
+    nightHours,
+    dayMinutes,
   ]);
 
   const mountedRef = useRef(false);

@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",
     "paths": {
       "@howljs/calendar-kit": ["./src/index"]
     },
+    "allowJs": false,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
-    "importsNotUsedAsValues": "error",
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "lib": ["esnext"],
@@ -24,5 +25,5 @@
     "strict": true,
     "target": "esnext"
   },
-  "exclude": ["documentation"]
+  "exclude": ["documentation", "babel.config.js"]
 }

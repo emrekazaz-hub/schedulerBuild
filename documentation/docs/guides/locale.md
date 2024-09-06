@@ -19,12 +19,16 @@ MomentConfig.updateLocale('vi', {
   weekdaysShort: 'CN_T2_T3_T4_T5_T6_T7'.split('_'),
 });
 
+MomentConfig.updateLocale('de', {
+  weekdaysShort: 'So_Mo_Di_Mi_Do_Fr_Sa'.split('_'),
+});
+
 const Calendar = () => {
   return (
     <SafeAreaView style={styles.container}>
       <TimelineCalendar
         viewMode="week"
-        locale="ja" // Language settings will be displayed. Default is `en`
+        locale="de" // Language settings will be displayed. Default is `en`
       />
     </SafeAreaView>
   );

@@ -3,6 +3,7 @@ sidebar_position: 1
 ---
 
 # View Mode
+
 TimelineCalendar has 4 modes: **week**, **day**, **threeDays** and **workWeek**
 
 ```jsx title="Example"

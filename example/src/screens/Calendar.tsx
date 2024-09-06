@@ -92,6 +92,10 @@ MomentConfig.updateLocale('ja', {
   weekdaysShort: '日_月_火_水_木_金_土'.split('_'),
 });
 
+MomentConfig.updateLocale('de', {
+  weekdaysShort: 'So_Mo_Di_Mi_Do_Fr_Sa'.split('_'),
+});
+
 const Calendar = ({ route, navigation }: CalendarProps) => {
   const { bottom: safeBottom } = useSafeAreaInsets();
   const calendarRef = useRef<TimelineCalendarHandle>(null);
@@ -131,6 +135,11 @@ const Calendar = ({ route, navigation }: CalendarProps) => {
       end: event.end,
       color: randLightColor(),
       containerStyle: { borderColor: randColor(), borderWidth: 1 },
+      description: {
+        hour: randomId,
+        fullName: randomId,
+        titleColor: randColor(),
+      },
     };
     setEvents((prev) => [...prev, newEvent]);
   };
@@ -234,6 +243,8 @@ const Calendar = ({ route, navigation }: CalendarProps) => {
         viewMode={route.params?.viewMode ?? 'week'}
         allowPinchToZoom
         allowDragToCreate
+        nightHours={[]}
+        dayMinutes={[]}
         events={events}
         unavailableHours={unavailableHours}
         holidays={['2022-11-05', '2022-11-02']}
@@ -268,9 +279,9 @@ const Calendar = ({ route, navigation }: CalendarProps) => {
           dayNumberContainer: { backgroundColor: 'white' },
           allowFontScaling: false,
         }}
-        locale="en"
+        locale="de"
         useHaptic
-        timeZone="Asia/Tokyo"
+        timeZone="Europe/Berlin"
         renderHalfLineCustom={_renderHalfLineCustom}
         halfLineContainerStyle={styles.halfLineContainer}
       />

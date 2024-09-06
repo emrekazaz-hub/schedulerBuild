@@ -358,7 +358,10 @@ export const getDayBarStyle = (
   currentDate: string,
   date: Moment,
   theme: ThemeProperties,
-  highlightDate: DayBarStyle = {}
+  highlightDate: DayBarStyle = {},
+  dayFS: string,
+  dayTU: string,
+  daySO: string
 ) => {
   const dateStr = date.format('YYYY-MM-DD');
   const isToday = dateStr === currentDate;
@@ -379,6 +382,9 @@ export const getDayBarStyle = (
     dayName: { ...theme[`${styleKey}Name`] },
     dayNumber: { ...theme[`${styleKey}Number`] },
     dayNumberContainer: { ...theme[`${styleKey}NumberContainer`] },
+    dayFS,
+    dayTU,
+    daySO,
   };
 
   if (!isToday) {

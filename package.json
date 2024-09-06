@@ -162,7 +162,9 @@
     ]
   },
   "dependencies": {
+    "@react-navigation/drawer": "^6.7.2",
+    "lodash": "^4.17.21",
     "moment-timezone": "^0.5.40",
-    "lodash": "^4.17.21"
+    "react-native-svg": "^15.2.0"
   }
 }

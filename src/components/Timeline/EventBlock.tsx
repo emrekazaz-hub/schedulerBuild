@@ -1,12 +1,11 @@
 import isEqual from 'lodash/isEqual';
 import React, { memo } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
   SharedValue,
   useAnimatedStyle,
   withTiming,
 } from 'react-native-reanimated';
-import { DEFAULT_PROPS } from '../../constants';
 import type { PackedEvent, ThemeProperties } from '../../types';
 import { shallowEqual } from '../../utils';
 
@@ -98,12 +97,32 @@ const EventBlock = ({
 
   const _renderEventContent = () => {
     return (
-      <Text
-        allowFontScaling={theme.allowFontScaling}
-        style={[styles.title, theme.eventTitle]}
-      >
-        {event.title}
-      </Text>
+      <View>
+        <Text
+          allowFontScaling={theme.allowFontScaling}
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={[styles.title, { color: event.description?.titleColor }]}
+        >
+          {event.title}
+        </Text>
+        <Text
+          allowFontScaling={theme.allowFontScaling}
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={[styles.description, { color: event.description?.titleColor }]}
+        >
+          {event?.description?.hour}
+        </Text>
+        <Text
+          allowFontScaling={theme.allowFontScaling}
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={[styles.description, { color: event.description?.titleColor }]}
+        >
+          {event?.description?.fullName}
+        </Text>
+      </View>
     );
   };
 
@@ -157,7 +176,10 @@ const styles = StyleSheet.create({
   title: {
     paddingVertical: 4,
     paddingHorizontal: 2,
-    fontSize: 10,
-    color: DEFAULT_PROPS.BLACK_COLOR,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  description: {
+    fontSize: 12,
   },
 });

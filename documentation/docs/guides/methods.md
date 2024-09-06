@@ -1,6 +1,7 @@
 ---
 sidebar_position: 9
 ---
+
 # Available methods
 
 TimelineCalendar methods

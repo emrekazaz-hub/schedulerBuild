@@ -77,6 +77,7 @@ const TimelinePage = ({
     nowIndicatorInterval,
     isPinchActive,
     heightByTimeInterval,
+    // numOfColumns,
   } = useTimelineCalendarContext();
 
   const eventsByColumns = useMemo(
@@ -163,6 +164,7 @@ const TimelinePage = ({
     const dateByColumn = moment.tz(startDate, tzOffset).add(dayIndex, 'd');
     const dateStr = dateByColumn.format('YYYY-MM-DD');
     const isToday = dateStr === currentDate;
+    // const nowIndicatorWidth = numOfColumns * columnWidth;
 
     return (
       <React.Fragment key={dayIndex}>

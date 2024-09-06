@@ -162,7 +162,7 @@ const DragEditItem = ({
   };
 
   const recalculateEvent = () => {
-    const newLeftPosition = event.leftByIndex! + translateX.value;
+    const newLeftPosition = selectedEvent.leftByIndex! + translateX.value;
     const dayIndex = Math.round(newLeftPosition / columnWidth);
     const startDate = pages[viewMode].data[currentIndex.value];
     const currentDateMoment = moment
@@ -290,7 +290,34 @@ const DragEditItem = ({
   }, []);
 
   const _renderEventContent = () => {
-    return <Text style={[styles.title, theme.eventTitle]}>{event.title}</Text>;
+    return (
+      <View>
+        <Text
+          allowFontScaling={theme.allowFontScaling}
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={[styles.titleEvent, { color: event.description?.titleColor }]}
+        >
+          {event.title}
+        </Text>
+        <Text
+          allowFontScaling={theme.allowFontScaling}
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={[styles.description, { color: event.description?.titleColor }]}
+        >
+          {event?.description?.hour}
+        </Text>
+        <Text
+          allowFontScaling={theme.allowFontScaling}
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={[styles.description, { color: event.description?.titleColor }]}
+        >
+          {event?.description?.fullName}
+        </Text>
+      </View>
+    );
   };
 
   return (
@@ -345,6 +372,15 @@ const DragEditItem = ({
         hourWidth={hourWidth}
         theme={theme}
         hourFormat={hourFormat}
+      />
+      <AnimatedEndHour
+        currentHour={currentHour}
+        eventTop={eventTop}
+        hourWidth={hourWidth}
+        theme={theme}
+        hourFormat={hourFormat}
+        heightByTimeInterval={heightByTimeInterval}
+        eventHeight={eventHeight}
       />
     </View>
   );
@@ -431,6 +467,88 @@ const AnimatedHour = ({
   );
 };
 
+interface AnimatedEndHourProps {
+  currentHour: Animated.SharedValue<number>;
+  eventTop: Animated.SharedValue<number>;
+  hourWidth: number;
+  theme: ThemeProperties;
+  hourFormat?: string;
+  eventHeight: Animated.SharedValue<number>;
+  heightByTimeInterval: Animated.SharedValue<number>;
+}
+
+const AnimatedEndHour = ({
+  currentHour,
+  eventTop,
+  hourWidth,
+  theme,
+  hourFormat,
+  eventHeight,
+  heightByTimeInterval,
+}: AnimatedEndHourProps) => {
+  const [endTime, setEndTime] = useState('');
+
+  const _onChangedEndTime = (
+    hourStr: string | number,
+    minutesStr: string | number
+  ) => {
+    let newEndTime = `${hourStr}:${minutesStr}`;
+    if (hourFormat) {
+      newEndTime = moment(
+        `1970/1/1 ${hourStr}:${minutesStr}`,
+        'YYYY/M/D HH:mm'
+      ).format(hourFormat);
+    }
+    setEndTime(newEndTime);
+  };
+
+  useAnimatedReaction(
+    () => {
+      const startHour = currentHour.value;
+      const endHour =
+        startHour + eventHeight.value / heightByTimeInterval.value;
+      const rHours = Math.floor(endHour);
+      const minutes = (endHour - rHours) * 60;
+      const rMinutes = Math.round(minutes);
+
+      let adjustedHours = rHours;
+      if (adjustedHours < 0) {
+        adjustedHours += 24;
+      } else if (adjustedHours >= 24) {
+        adjustedHours -= 24;
+      }
+
+      const hourStr = adjustedHours < 10 ? '0' + adjustedHours : adjustedHours;
+      const minutesStr = rMinutes < 10 ? '0' + rMinutes : rMinutes;
+
+      return { hourStr, minutesStr };
+    },
+    ({ hourStr, minutesStr }) => {
+      runOnJS(_onChangedEndTime)(hourStr, minutesStr);
+    }
+  );
+
+  const animatedTextStyles = useAnimatedStyle(() => {
+    const endHourTop = eventTop.value + eventHeight.value - 6;
+    return { top: endHourTop };
+  });
+
+  return (
+    <Animated.View
+      style={[
+        styles.hourContainer,
+        {
+          width: hourWidth - 8,
+        },
+        theme.dragHourContainer,
+        animatedTextStyles,
+      ]}
+    >
+      <Text style={[styles.hourText, theme.dragHourText]}>{endTime}</Text>
+    </Animated.View>
+  );
+};
+
 const styles = StyleSheet.create({
   eventContainer: {
     position: 'absolute',
@@ -480,5 +598,14 @@ const styles = StyleSheet.create({
     height: 2,
     backgroundColor: '#000',
     marginBottom: 2,
+  },
+  titleEvent: {
+    paddingVertical: 4,
+    paddingHorizontal: 2,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  description: {
+    fontSize: 12,
   },
 });

@@ -39,7 +39,7 @@ const DragCreateItem = ({
   });
 
   return (
-    <View style={StyleSheet.absoluteFill} pointerEvents="none">
+    <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
       <Animated.View
         style={[
           styles.defaultStyle,
@@ -54,6 +54,15 @@ const DragCreateItem = ({
       <AnimatedHour
         currentHour={currentHour}
         offsetY={offsetY}
+        hourWidth={hourWidth}
+        theme={theme}
+        hourFormat={hourFormat}
+      />
+      <AnimatedEndHour
+        currentHour={currentHour}
+        offsetY={offsetY}
+        heightByTimeInterval={heightByTimeInterval}
+        dragCreateInterval={dragCreateInterval}
         hourWidth={hourWidth}
         theme={theme}
         hourFormat={hourFormat}
@@ -135,6 +144,97 @@ const AnimatedHour = ({
         style={[styles.hourText, theme.dragHourText]}
       >
         {time}
+      </Text>
+    </Animated.View>
+  );
+};
+
+interface AnimatedEndHourProps {
+  currentHour: Animated.SharedValue<number>;
+  offsetY: Animated.SharedValue<number>;
+  heightByTimeInterval: SharedValue<number>;
+  dragCreateInterval: number;
+  hourWidth: number;
+  theme: ThemeProperties;
+  hourFormat?: string;
+}
+
+const AnimatedEndHour = ({
+  currentHour,
+  offsetY,
+  heightByTimeInterval,
+  dragCreateInterval,
+  hourWidth,
+  theme,
+  hourFormat,
+}: AnimatedEndHourProps) => {
+  const [endTime, setEndTime] = useState('');
+
+  const _onChangedEndTime = (
+    hourStr: string | number,
+    minutesStr: string | number
+  ) => {
+    let newEndTime = `${hourStr}:${minutesStr}`;
+    if (hourFormat) {
+      newEndTime = moment(
+        `1970/1/1 ${hourStr}:${minutesStr}`,
+        'YYYY/M/D HH:mm'
+      ).format(hourFormat);
+    }
+    setEndTime(newEndTime);
+  };
+
+  useAnimatedReaction(
+    () => {
+      const startHour = currentHour.value;
+      const endHour = startHour + 1;
+      const rHours = Math.floor(endHour);
+      const minutes = (endHour - rHours) * 60;
+      const rMinutes = Math.round(minutes);
+
+      let adjustedHours = rHours;
+      if (adjustedHours < 0) {
+        adjustedHours += 24;
+      } else if (adjustedHours >= 24) {
+        adjustedHours -= 24;
+      }
+
+      const hourStr = adjustedHours < 10 ? '0' + adjustedHours : adjustedHours;
+      const minutesStr = rMinutes < 10 ? '0' + rMinutes : rMinutes;
+
+      return { hourStr, minutesStr };
+    },
+    ({ hourStr, minutesStr }) => {
+      runOnJS(_onChangedEndTime)(hourStr, minutesStr);
+    }
+  );
+
+  const animatedTextStyles = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY:
+            offsetY.value +
+            (dragCreateInterval / 60) * heightByTimeInterval.value,
+        },
+      ],
+    };
+  });
+
+  return (
+    <Animated.View
+      style={[
+        styles.hourContainer,
+        { width: hourWidth - 8 },
+        theme.dragHourContainer,
+        animatedTextStyles,
+      ]}
+    >
+      <Text
+        allowFontScaling={theme.allowFontScaling}
+        style={[styles.hourText, theme.dragHourText]}
+      >
+        {endTime}
       </Text>
     </Animated.View>
   );

@@ -110,12 +110,27 @@ export interface TimelineProps {
 
   /** Callback function will be called when the time interval height is changed */
   onTimeIntervalHeightChange?: (height: number) => void;
+
+  /** Nihnt Hours for icon */
+  nightHours?: string[];
+
+  /** Header Events TU FS SO */
+  dayMinutes?: DayMinutePros[];
 }
 
 export interface UnavailableItemProps {
   timeIntervalHeight: SharedValue<number>;
   hour: number;
   width: number;
+}
+
+export interface DayMinutePros {
+  date: string;
+  FS?: number;
+  TU?: number;
+  SO?: number;
+  textColor?: string;
+  containerColor?: string;
 }
 
 export type CalendarViewMode = 'day' | 'week' | 'threeDays' | 'workWeek';
@@ -329,6 +344,12 @@ export interface TimelineProviderProps {
 
   /** Width of calendar */
   calendarWidth?: number;
+
+  /** */
+  nightHours?: string[];
+
+  /** */
+  dayMinutes?: DayMinutePros[];
 }
 
 export interface DayBarItemProps {
@@ -405,6 +426,13 @@ export type UnavailableHoursStyle = Record<
   }[]
 >;
 
+// interface for eventItemDescroption
+export interface EventDescription {
+  hour?: string;
+  fullName?: string;
+  titleColor?: string;
+}
+
 export interface EventItem {
   /** Unique ID for the event. */
   id: string;
@@ -413,7 +441,9 @@ export interface EventItem {
   /** End date of the event. (ISOString) */
   end: string;
   /** Title of the event */
-  title?: string;
+  title: string;
+  /** Description of the event */
+  description?: EventDescription;
   /** Background color of the event */
   color?: string;
   /** Container style of the event */
