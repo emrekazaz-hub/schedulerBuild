@@ -27,6 +27,12 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         }}
       />
       <DrawerItem
+        label="5-days"
+        onPress={() => {
+          props.navigation.navigate('Calendar', { viewMode: 'fiveDays' });
+        }}
+      />
+      <DrawerItem
         label="Week"
         onPress={() => {
           props.navigation.navigate('Calendar', { viewMode: 'week' });

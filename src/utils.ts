@@ -15,7 +15,8 @@ export const calculateDates = (
   let day: DateData = { data: [], index: -1 },
     week: DateData = { data: [], index: -1 },
     threeDays: DateData = { data: [], index: -1 },
-    workWeek: DateData = { data: [], index: -1 };
+    workWeek: DateData = { data: [], index: -1 },
+    fiveDays: DateData = { data: [], index: -1 };
 
   const minDate = moment(minDateStr);
   const maxDate = moment(maxDateStr);
@@ -44,7 +45,8 @@ export const calculateDates = (
   let startWorkWeekDate = minWorkWorkDateUnix,
     startWeekDate = minWeekDateUnix,
     startThreeDays = minDateUnix,
-    startDay = minDateUnix;
+    startDay = minDateUnix,
+    startFiveDays = minDateUnix;
   for (let dayIndex = 0; dayIndex < totalDays; dayIndex++) {
     const currentUnix = minWeekDateUnix + dayIndex * SECONDS_IN_DAY;
     const dateStr = minWeekDate.clone().add(dayIndex, 'd').format('YYYY-MM-DD');
@@ -71,10 +73,15 @@ export const calculateDates = (
       threeDays.index = threeDays.data.length - 1;
       week.index = week.data.length - 1;
       workWeek.index = workWeek.data.length - 1;
+      fiveDays.index = fiveDays.data.length - 1;
+    }
+    if (startFiveDays === currentUnix && startFiveDays <= maxDateUnix) {
+      fiveDays.data.push(dateStr);
+      startFiveDays = currentUnix + 5 * SECONDS_IN_DAY;
     }
   }
 
-  return { day, week, threeDays, workWeek };
+  return { day, week, threeDays, workWeek, fiveDays };
 };
 
 export const calculateHours = (

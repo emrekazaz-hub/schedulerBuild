@@ -75,6 +75,9 @@ import { TimelineCalendar } from '@howljs/calendar-kit';
 // 3-days
 <TimelineCalendar viewMode="threeDays" />;
 
+// 5-days
+<TimelineCalendar viewMode="fiveDays" />;
+
 // Work week
 <TimelineCalendar viewMode="workWeek" />;
 ```

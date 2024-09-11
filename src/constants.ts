@@ -36,6 +36,12 @@ export const DEFAULT_PROPS = {
   EDIT_SAVE_MODE: 'manual' as const,
 };
 
-export const COLUMNS = { week: 7, threeDays: 3, workWeek: 5, day: 1 };
+export const COLUMNS = {
+  week: 7,
+  threeDays: 3,
+  fiveDays: 5,
+  workWeek: 5,
+  day: 1,
+}
 
 export const SECONDS_IN_DAY = 86400;

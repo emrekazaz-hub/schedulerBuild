@@ -133,7 +133,12 @@ export interface DayMinutePros {
   containerColor?: string;
 }
 
-export type CalendarViewMode = 'day' | 'week' | 'threeDays' | 'workWeek';
+export type CalendarViewMode =
+  | 'day'
+  | 'week'
+  | 'threeDays'
+  | 'fiveDays'
+  | 'workWeek';
 
 export interface TimelineProviderProps {
   /** Calendar view mode.

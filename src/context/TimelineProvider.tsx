@@ -154,6 +154,7 @@ const TimelineProvider: React.FC<TimelineProviderProps> = (props) => {
     workWeek: pages.workWeek.data[0],
     day: pages.day.data[0],
     threeDays: pages.threeDays.data[0],
+    fiveDays: pages.fiveDays.data[0],
   });
 
   const hours = useMemo(
@@ -210,6 +211,7 @@ const TimelineProvider: React.FC<TimelineProviderProps> = (props) => {
       workWeek: pages.workWeek.data.length,
       day: pages.day.data.length,
       threeDays: pages.threeDays.data.length,
+      fiveDays: pages.fiveDays.data.length,
     };
     const totalHours = hours.length;
     const rightSideWidth = timelineWidth - rHourWidth;

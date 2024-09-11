@@ -13,6 +13,7 @@ describe('get date data', () => {
       threeDays: { length: 11, index: 3 },
       workWeek: { length: 5, index: 1 },
       week: { length: 6, index: 2 },
+      fiveDays: { length: 6, index: 1 },
     };
 
     expect(dates.week.data.length).toBe(expectData.week.length);
@@ -26,6 +27,9 @@ describe('get date data', () => {
 
     expect(dates.threeDays.data.length).toBe(expectData.threeDays.length);
     expect(dates.threeDays.index).toBe(expectData.threeDays.index);
+
+    expect(dates.fiveDays.data.length).toBe(expectData.fiveDays.length);
+    expect(dates.fiveDays.index).toBe(expectData.fiveDays.index);
   });
 });
 
