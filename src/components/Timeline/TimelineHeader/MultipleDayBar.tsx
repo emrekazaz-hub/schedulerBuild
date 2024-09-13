@@ -6,6 +6,8 @@ import { COLUMNS, DEFAULT_PROPS } from '../../../constants';
 import type { DayBarItemProps } from '../../../types';
 import { getDayBarStyle } from '../../../utils';
 import { useTimelineCalendarContext } from '../../../context/TimelineProvider';
+import ToSvg from '../../../helpers/ToSvg';
+import { FSicon, SOicon, TUicon } from '../../../helpers/SvgPaths';
 
 const MultipleDayBar = ({
   width,
@@ -19,18 +21,20 @@ const MultipleDayBar = ({
   currentDate,
   tzOffset,
 }: DayBarItemProps) => {
-  const { dayMinutes } = useTimelineCalendarContext();
+  const { dayMinutes, dayMinuteStyle } = useTimelineCalendarContext();
   const _renderDay = (dayIndex: number) => {
     const dateByIndex = moment.tz(startDate, tzOffset).add(dayIndex, 'd');
     const dateStr = dateByIndex.format('YYYY-MM-DD');
     const event = dayMinutes?.find((eventDate) => eventDate.date === dateStr);
-    const fahrstunde = event ? `FS: ${event.FS} min.` : 'FS: 0 min.';
-    const theoriestunde = event ? `TU: ${event.TU} min.` : 'TU: 0 min.';
-    const sonstige = event ? `SO: ${event.SO} min.` : 'SO: 0 min.';
+    const fahrstunde = event ? `${event.FS} min.` : '0 min.';
+    const theoriestunde = event ? `${event.TU} min.` : '0 min.';
+    const sonstige = event ? `${event.SO} min.` : '0 min.';
     dayMinutes?.find((eventDate) => eventDate.date === dateStr);
+    let containerStyle;
+    let minuteStyle;
     const [dayNameText, dayNum] = dateByIndex
       .locale(locale)
-      .format('dd,D')
+      .format('ddd,DD.MM')
       .split(',');
     const highlightDate = highlightDates?.[dateStr];
 
@@ -44,6 +48,11 @@ const MultipleDayBar = ({
         theoriestunde,
         sonstige
       );
+    if (dayMinuteStyle) {
+      containerStyle = dayMinuteStyle[0]?.containerColor;
+      minuteStyle = dayMinuteStyle[0]?.minuteStyle;
+    }
+
     return (
       <View
         key={`${startDate}_${dayIndex}`}
@@ -68,10 +77,34 @@ const MultipleDayBar = ({
             {dayNum}
           </Text>
         </TouchableOpacity>
-        <View style={styles.containerMinutes}>
-          <Text style={styles.textMinutes}>{dayFS}</Text>
-          <Text style={styles.textMinutes}>{dayTU}</Text>
-          <Text style={styles.textMinutes}>{daySO}</Text>
+        <View style={[styles.containerMinutes, containerStyle]}>
+          <View style={styles.headerMinutesIconContainer}>
+            <ToSvg
+              svgXml={FSicon}
+              height={13}
+              width={13}
+              color={minuteStyle?.color}
+            />
+            <Text style={minuteStyle}>{dayFS}</Text>
+          </View>
+          <View style={styles.headerMinutesIconContainer}>
+            <ToSvg
+              svgXml={TUicon}
+              height={13}
+              width={13}
+              color={minuteStyle?.color}
+            />
+            <Text style={minuteStyle}>{dayTU}</Text>
+          </View>
+          <View style={styles.headerMinutesIconContainer}>
+            <ToSvg
+              svgXml={SOicon}
+              height={13}
+              width={13}
+              color={minuteStyle?.color}
+            />
+            <Text style={minuteStyle}>{daySO}</Text>
+          </View>
         </View>
       </View>
     );
@@ -110,11 +143,11 @@ const styles = StyleSheet.create({
   dayNumber: { color: DEFAULT_PROPS.SECONDARY_COLOR, fontSize: 16 },
   containerMinutes: {
     alignItems: 'center',
-    backgroundColor: '#F4F6F7',
     width: '100%',
   },
-  textMinutes: {
-    fontSize: 12,
-    color: '#6E7375',
+  headerMinutesIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
 });

@@ -34,6 +34,7 @@ const TimelineCalendar: React.ForwardRefRenderFunction<
     onTimeIntervalHeightChange,
     nightHours,
     dayMinutes,
+    dayMinuteStyle,
     ...timelineProviderProps
   },
   ref
@@ -65,6 +66,7 @@ const TimelineCalendar: React.ForwardRefRenderFunction<
     onTimeIntervalHeightChange,
     nightHours,
     dayMinutes,
+    dayMinuteStyle,
   };
 
   return (
@@ -72,6 +74,7 @@ const TimelineCalendar: React.ForwardRefRenderFunction<
       {...timelineProviderProps}
       nightHours={nightHours}
       dayMinutes={dayMinutes}
+      dayMinuteStyle={dayMinuteStyle}
     >
       <Timeline {...timelineProps} ref={ref} />
     </TimelineProvider>

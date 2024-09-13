@@ -245,6 +245,7 @@ const Calendar = ({ route, navigation }: CalendarProps) => {
         allowDragToCreate
         nightHours={[]}
         dayMinutes={[]}
+        dayMinuteStyle={[]}
         events={events}
         unavailableHours={unavailableHours}
         holidays={['2022-11-05', '2022-11-02']}

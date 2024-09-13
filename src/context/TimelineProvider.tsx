@@ -20,6 +20,7 @@ import useDeepCompare from '../hooks/useDeepCompare';
 import type {
   CalendarViewMode,
   DayMinutePros,
+  DayMinuteStyleProps,
   TimelineProviderProps,
   UnavailableHour,
 } from '../types';
@@ -42,6 +43,7 @@ type CustomTimelineProviderProps = Required<
     | 'calendarWidth'
     | 'nightHours'
     | 'dayMinutes'
+    | 'dayMinuteStyle'
   >
 >;
 
@@ -83,6 +85,7 @@ interface TimelineCalendarContextValue extends CustomTimelineProviderProps {
   numOfColumns: number;
   heightByTimeInterval: Readonly<SharedValue<number>>;
   dayMinutes?: DayMinutePros[];
+  dayMinuteStyle?: DayMinuteStyleProps[] | undefined;
 }
 
 const TimelineCalendarContext = React.createContext<
@@ -129,6 +132,7 @@ const TimelineProvider: React.FC<TimelineProviderProps> = (props) => {
     calendarWidth,
     nightHours,
     dayMinutes,
+    dayMinuteStyle,
   } = props;
 
   const { width: windowWidth } = useWindowDimensions();
@@ -278,6 +282,7 @@ const TimelineProvider: React.FC<TimelineProviderProps> = (props) => {
       heightByTimeInterval,
       nightHours,
       dayMinutes,
+      dayMinuteStyle,
     };
   }, [
     pages,
@@ -326,6 +331,7 @@ const TimelineProvider: React.FC<TimelineProviderProps> = (props) => {
     heightByTimeInterval,
     nightHours,
     dayMinutes,
+    dayMinuteStyle,
   ]);
 
   const mountedRef = useRef(false);

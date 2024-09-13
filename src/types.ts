@@ -116,6 +116,9 @@ export interface TimelineProps {
 
   /** Header Events TU FS SO */
   dayMinutes?: DayMinutePros[];
+
+  /** Header minute styles */
+  dayMinuteStyle?: DayMinuteStyleProps[] | undefined;
 }
 
 export interface UnavailableItemProps {
@@ -129,8 +132,17 @@ export interface DayMinutePros {
   FS?: number;
   TU?: number;
   SO?: number;
-  textColor?: string;
-  containerColor?: string;
+}
+
+export interface DayMinuteStyleProps {
+  containerColor?: {
+    backgroundColor?: string;
+  };
+  minuteStyle?: {
+    color?: string;
+    fontSize?: number;
+    fontFamily?: string;
+  };
 }
 
 export type CalendarViewMode =
@@ -355,6 +367,9 @@ export interface TimelineProviderProps {
 
   /** */
   dayMinutes?: DayMinutePros[];
+
+  /** */
+  dayMinuteStyle?: DayMinuteStyleProps[] | undefined;
 }
 
 export interface DayBarItemProps {
