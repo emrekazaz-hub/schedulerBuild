@@ -8,15 +8,16 @@ interface UnavailableHourProps {
   top: number;
   hour: number;
   renderCustomUnavailableItem?: (props: UnavailableItemProps) => JSX.Element;
+  color?: string;
 }
 
 const UnavailableHourItem = ({
   top,
   hour,
   renderCustomUnavailableItem,
+  color,
 }: UnavailableHourProps) => {
-  const { heightByTimeInterval, theme, columnWidth } =
-    useTimelineCalendarContext();
+  const { heightByTimeInterval, columnWidth } = useTimelineCalendarContext();
   const unavailableHourStyle = useAnimatedStyle(() => {
     return {
       top: top * heightByTimeInterval.value,
@@ -29,7 +30,7 @@ const UnavailableHourItem = ({
       pointerEvents="box-none"
       style={[
         styles.unavailableHourItem,
-        { backgroundColor: theme.unavailableBackgroundColor },
+        { backgroundColor: color },
         unavailableHourStyle,
       ]}
     >

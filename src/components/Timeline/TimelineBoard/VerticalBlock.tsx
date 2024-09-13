@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { useTimelineCalendarContext } from '../../../context/TimelineProvider';
 import type { UnavailableHour, UnavailableItemProps } from '../../../types';
 import UnavailableHourItem from './UnavailableHourItem';
+import { DEFAULT_PROPS } from '../../../constants';
 
 interface VerticalBlockProps {
   dayIndex: number;
@@ -24,12 +25,15 @@ const VerticalBlock: React.FC<VerticalBlockProps> = ({
   const _renderUnavailableHour = (hour: UnavailableHour, i: number) => {
     const startFixed = Math.max(hour.start, start);
     const endFixed = Math.min(hour.end, end);
+    const color = hour.color || DEFAULT_PROPS.UNAVAILABLE_BACKGROUND_COLOR;
+
     return (
       <UnavailableHourItem
         key={`${dayIndex}_${i}`}
         top={startFixed - start}
         hour={endFixed - startFixed}
         renderCustomUnavailableItem={renderCustomUnavailableItem}
+        color={color}
       />
     );
   };

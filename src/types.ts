@@ -436,6 +436,7 @@ export interface RangeTime {
 export interface UnavailableHour {
   start: number;
   end: number;
+  color?: string;
 }
 
 export type UnavailableHoursStyle = Record<
