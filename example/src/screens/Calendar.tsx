@@ -140,6 +140,7 @@ const Calendar = ({ route, navigation }: CalendarProps) => {
         fullName: randomId,
         titleColor: randColor(),
       },
+      calendarItem: {}
     };
     setEvents((prev) => [...prev, newEvent]);
   };

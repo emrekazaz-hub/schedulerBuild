@@ -454,6 +454,36 @@ export interface EventDescription {
   titleColor?: string;
 }
 
+export interface CalendarItemProps {
+  CalendarId?: number;
+  CalendarTitle?: string;
+  CalendarDescript?: string;
+  StartDateTime?: Date | string;
+  EndDateTime?: Date | string;
+  IsAllDay?: number;
+  TeacherId?: number;
+  LogType?: string;
+  EventType?: number;
+  IsBooked?: number;
+  FilialeId?: string;
+  StudentId?: string;
+  ClassId?: string;
+  ClassTypes?: string;
+  Chapter?: string;
+  IsLog?: boolean;
+  Synced?: boolean;
+  ExternaCalendarlID?: string;
+  VehicleId?: number;
+  VehicleKM?: number;
+  AccompanyingVehicleId?: number;
+  AccompanyingVehicleKM?: number;
+  Note?: string;
+  seriesId?: string;
+  IsSigned?: number;
+  GroupId?: string;
+  LeistungType?: any;
+}
+
 export interface EventItem {
   /** Unique ID for the event. */
   id: string;
@@ -469,7 +499,11 @@ export interface EventItem {
   color?: string;
   /** Container style of the event */
   containerStyle?: StyleProp<ViewStyle>;
+    /** Calendar event*/
+  calendarItem?: CalendarItemProps;
+
   [key: string]: any;
+
 }
 
 export interface PackedEvent extends EventItem {
